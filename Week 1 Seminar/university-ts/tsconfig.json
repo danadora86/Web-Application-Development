@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noEmit": true,
+        "target": "es2020",
+        "module": "es2020",
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true
+    },
+    "files": ["main.ts"]
+}
