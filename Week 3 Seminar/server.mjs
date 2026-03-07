@@ -5,6 +5,7 @@ const app = express();
 const db = new Database('wadsongs.db');
 
 app.use(express.json());
+app.use(express.static('public'));
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS orders (
@@ -70,9 +71,12 @@ app.get('/songs/:id', (req, res) => {
 });
 
 app.post('/songs', (req, res) => {
-    const { title, artist, year = null, downloads = 0, price, quantity } = req.body;
+    let { title, artist, year = null, downloads = 0, price, quantity } = req.body;
 
-    if (!title || !artist || price === undefined || quantity === undefined) {
+    title = title?.trim();
+    artist = artist?.trim();
+
+    if (!title || !artist || price === undefined || quantity === undefined || title === '' || artist === '') {
         return res.status(400).json({
             error: 'title, artist, price, and quantity are required',
         });
@@ -171,6 +175,7 @@ app.post('/songs/:id/buy', (req, res) => {
                 song: selectStmt.get(songId),
             };
         });
+
         const result = transaction(id);
 
         if (result.error) {
