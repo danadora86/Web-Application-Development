@@ -1,0 +1,32 @@
+import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import './style.css';
+
+// Create the map
+const map = L.map('map');
+
+// Add tile layer
+const attribution = '&copy; OpenStreetMap contributors';
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution
+}).addTo(map);
+
+// New York coordinates
+const newYork = [40.7128, -74.0060];
+
+// Initial view: New York
+map.setView(newYork, 13);
+
+// Marker + popup for New York
+L.marker(newYork)
+  .addTo(map)
+  .bindPopup('New York City')
+  .openPopup();
+
+// Button
+const newYorkBtn = document.getElementById('newYorkBtn');
+
+// Button event
+newYorkBtn.addEventListener('click', () => {
+  map.setView(newYork, 13);
+});
